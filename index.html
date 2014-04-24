@@ -1,0 +1,58 @@
+<html>
+<head>
+<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+.spaced {
+  padding: 5px;
+}
+/*
+#train {
+  display: none;
+}
+*/
+</style>
+</head>
+<body>
+<center>
+  <h1>
+    Classyfi Web Demo
+  </h1>
+  <button id="score_lang" class="btn btn-primary btn-lg">Latin vs. English</button>
+  <button id="score_write" class="btn btn-primary btn-lg">Dickens vs. Austen</button>
+  <button id="score_custom" class="btn btn-primary btn-lg">Custom</button>
+</center>
+<div class="container" id="train">
+  <h1>Select a Metric:</h1>
+  <select id="tokenizer" class="form-control">
+    <option value="letter_trigrams">Letter trigrams</option>
+    <option value="word_unigrams">Word unigrams (alphabet size = 6000)</option>
+    <option value="word_bigrams">Word bigrams (alphabet size = 1000)</option>
+  </select>
+  <h1>Corpus A:</h1>
+  <textarea class="form-control" id="corpusA" placeholder="Paste training text"></textarea>
+  <h1>Corpus B:</h2>
+  <textarea class="form-control" id="corpusB" placeholder="Paste training text"></textarea>
+  <div class="spaced">
+    <button id="run_training" class="btn btn-primary btn-lg">Run Training</button>
+  </div>
+  <hr/>
+</div>
+<div class="container">
+  <h1>Input text:</h1>
+  <textarea class="form-control" id="input" placeholder="Text to be classified"></textarea>
+</div>
+<div class="container">
+  <h1>Classification: <span id="result"></span></h1>
+</div>
+<div class="container">
+  <table class="table table-striped">
+    <tr><td>Category</td><td>Score</td></tr>
+    <tr><td id="a_tag">Jane Austen</td><td id="a_out"></td></tr>
+    <tr><td id="b_tag">Charles Dickens</td><td id="b_out"></td></tr>
+  </table>
+</div>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="classyfi.js"></script>
+<script src="index.js"></script>
+</body>
+</html>

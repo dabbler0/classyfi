@@ -1,0 +1,24 @@
+{
+  "name": "classyfi",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "classyfi.js",
+  "dependencies": {
+    "hashtable": "~0.1.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dabbler0/classyfi.git"
+  },
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-contrib-coffee": "latest"
+  },
+  "author": "",
+  "license": "MIT",
+  "gitHead": "fd195a859b6bf00e8cc8b34d5f2f1f312f4fe811"
+}

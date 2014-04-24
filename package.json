@@ -1,12 +1,8 @@
 {
   "name": "classyfi",
-  "version": "0.0.0",
+  "version": "0.0.4",
   "description": "ERROR: No README.md file found!",
   "main": "classyfi.js",
-  "dependencies": {
-    "hashtable": "~0.1.4"
-  },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,7 +14,7 @@
     "grunt": "latest",
     "grunt-contrib-coffee": "latest"
   },
-  "author": "",
+  "author": "Anthony Bau",
   "license": "MIT",
   "gitHead": "fd195a859b6bf00e8cc8b34d5f2f1f312f4fe811"
 }

@@ -1,3 +1,10 @@
+###
+# Smoothed Markov Model implementation in CoffeeScript
+#
+# Copyright (c) 2014 Anthony Bau.
+# MIT License.
+###
+
 exports = {}
 
 exports.Estmator = class Estimator
@@ -250,4 +257,5 @@ exports.getMostCommonTokens = getMostCommonTokens = (array, n) ->
 
   return (record.token for record in best)
 
-window.classyfi = exports
+if window? then window.classyfi = exports
+else if module? then module.exports = exports

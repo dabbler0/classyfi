@@ -36,12 +36,8 @@ languages = ->
   $('#input').on 'input', ->
     val = tokenize @value
     if val.length > 15
-      console.log 'going ahead with estimation'
-
       l = latinModel.estimate val
       e = englishModel.estimate val
-
-      console.log 'estimated:', l, e
 
       latinOut.text l
       englishOut.text e
@@ -49,7 +45,6 @@ languages = ->
       resultOut.text if l > e then 'LATIN' else 'ENGLISH'
     else
       resultOut.text '(insufficient text; minimum length 15 characters)'
-      console.log val, 'has length less than 3'
 
 writers = ->
   $('#train').hide()
@@ -100,15 +95,12 @@ writers = ->
       a = austenModel.estimate val
       d = dickensModel.estimate val
 
-      console.log 'estimated:', a, d
-
       latinOut.text a
       englishOut.text d
       
       resultOut.text if a > d then 'AUSTEN' else 'DICKENS'
     else
       resultOut.text '(insufficient text; minimum length 4 words)'
-      console.log val, 'has length less than 3'
 
 custom = ->
   $('#train').show()

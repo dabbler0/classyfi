@@ -36,16 +36,13 @@
       var e, l, val;
       val = tokenize(this.value);
       if (val.length > 15) {
-        console.log('going ahead with estimation');
         l = latinModel.estimate(val);
         e = englishModel.estimate(val);
-        console.log('estimated:', l, e);
         latinOut.text(l);
         englishOut.text(e);
         return resultOut.text(l > e ? 'LATIN' : 'ENGLISH');
       } else {
-        resultOut.text('(insufficient text; minimum length 15 characters)');
-        return console.log(val, 'has length less than 3');
+        return resultOut.text('(insufficient text; minimum length 15 characters)');
       }
     });
   };
@@ -102,13 +99,11 @@
       if (val.length > 4) {
         a = austenModel.estimate(val);
         d = dickensModel.estimate(val);
-        console.log('estimated:', a, d);
         latinOut.text(a);
         englishOut.text(d);
         return resultOut.text(a > d ? 'AUSTEN' : 'DICKENS');
       } else {
-        resultOut.text('(insufficient text; minimum length 4 words)');
-        return console.log(val, 'has length less than 3');
+        return resultOut.text('(insufficient text; minimum length 4 words)');
       }
     });
   };

@@ -1,3 +1,11 @@
+
+/*
+ * Smoothed Markov Model implementation in CoffeeScript
+ *
+ * Copyright (c) 2014 Anthony Bau.
+ * MIT License.
+ */
+
 (function() {
   var Category, Classifier, Estimator, MarkovModel, SmoothedMarkovModel, exports, getMostCommonTokens,
     __hasProp = {}.hasOwnProperty,
@@ -402,7 +410,11 @@
     })();
   };
 
-  window.classyfi = exports;
+  if (typeof window !== "undefined" && window !== null) {
+    window.classyfi = exports;
+  } else if (typeof module !== "undefined" && module !== null) {
+    module.exports = exports;
+  }
 
 }).call(this);
 

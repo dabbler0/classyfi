@@ -7,7 +7,7 @@
  */
 
 (function() {
-  var Category, Classifier, Estimator, MarkovModel, SmoothedMarkovModel, exports, getMostCommonTokens,
+  var Category, Classifier, Estimator, HiddenMarkovModel, HiddenMarkovModelState, MarkovModel, SmoothedMarkovModel, exports, getMostCommonTokens,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -361,6 +361,12 @@
       return categoryProbabilities;
     };
 
+    Classifier.prototype.best = function(tokens) {
+      var probabilities;
+      probabilities = this.classify(tokens);
+      return probabilities.indexOf(Math.max.apply(this, probabilities));
+    };
+
     return Classifier;
 
   })();
@@ -409,6 +415,105 @@
       return _results;
     })();
   };
+
+  exports.estimationMaximization = function(corpus, order, alphabetSize, bins, iterations, logFunction) {
+    var bigCorpus, classifier, currentEstimators, currentTags, doc, i, _i, _j, _len;
+    if (logFunction == null) {
+      logFunction = function() {};
+    }
+    bigCorpus = corpus.reduce(function(a, b) {
+      return a.concat(b);
+    });
+    getMostCommonTokens(bigCorpus, alphabetSize);
+    currentTags = corpus.map(function(doc) {
+      return Math.floor(Math.random() * bins);
+    });
+    for (_i = 0; 0 <= iterations ? _i < iterations : _i > iterations; 0 <= iterations ? _i++ : _i--) {
+      currentEstimators = (function() {
+        var _j, _results;
+        _results = [];
+        for (_j = 0; 0 <= bins ? _j < bins : _j > bins; 0 <= bins ? _j++ : _j--) {
+          _results.push(new Category(new SmoothedMarkovModel(order, alphabetSize)));
+        }
+        return _results;
+      })();
+      for (i = _j = 0, _len = corpus.length; _j < _len; i = ++_j) {
+        doc = corpus[i];
+        currentEstimators[currentTags[i]].feed(doc);
+      }
+      classifier = new Classifier(currentEstimators);
+      currentTags = corpus.map(function(doc) {
+        return classifier.classify(doc);
+      });
+      logFunction(currentTags);
+    }
+    return classifier;
+  };
+
+  exports.HiddenMarkovModel = HiddenMarkovModel = (function() {
+    function HiddenMarkovModel(transitionEstimator, emissionEstimator) {
+      this.transitionEstimator = transitionEstimator;
+      this.emissionEstimator = emissionEstimator;
+    }
+
+    HiddenMarkovModel.prototype.begin = function() {
+      return new HiddenMarkovModelState(this);
+    };
+
+    return HiddenMarkovModel;
+
+  })();
+
+  exports.HiddenMarkovModelState = HiddenMarkovModelState = (function() {
+    function HiddenMarkovModelState(model) {
+      var el, i, _i, _j, _len, _len1, _ref, _ref1;
+      this.model = model;
+      this.state = {};
+      _ref = this.model.transitionestimator.alphabet;
+      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+        el = _ref[i];
+        this.state[el] = 0;
+      }
+      this.bestSequences = {};
+      _ref1 = this.model.transitionestimator.alphabet;
+      for (i = _j = 0, _len1 = _ref1.length; _j < _len1; i = ++_j) {
+        el = _ref1[i];
+        this.bestSequences[el] = [];
+      }
+    }
+
+    HiddenMarkovModelState.prototype.feed = function(token) {
+      var el, i, newState, newToken, oldProb, oldToken, val, _i, _j, _len, _len1, _ref, _ref1, _results;
+      newState = {};
+      _ref = this.model.transitionEstimator.alphabet;
+      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+        el = _ref[i];
+        newState[el] = -Infinity;
+      }
+      _ref1 = this.state;
+      _results = [];
+      for (oldProb = _j = 0, _len1 = _ref1.length; _j < _len1; oldProb = ++_j) {
+        oldToken = _ref1[oldProb];
+        _results.push((function() {
+          var _k, _len2, _results1;
+          _results1 = [];
+          for (val = _k = 0, _len2 = newState.length; _k < _len2; val = ++_k) {
+            newToken = newState[val];
+            if (this.model.transitionEstimator.estimate(newToken, val)) {
+              _results1.push(something());
+            } else {
+              _results1.push(void 0);
+            }
+          }
+          return _results1;
+        }).call(this));
+      }
+      return _results;
+    };
+
+    return HiddenMarkovModelState;
+
+  })();
 
   if (typeof window !== "undefined" && window !== null) {
     window.classyfi = exports;
